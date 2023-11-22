@@ -1,36 +1,58 @@
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import ttk
 from pytube import YouTube
-
+import spotdl
 def download_audio():
+    url = url_entry2.get()
+    spotdl.Downloader(url)
+        
+
+
+def download_video():
     url = url_entry.get()
-    output_path = output_entry.get()
 
     try:
         yt = YouTube(url)
-        audio_stream = yt.streams.filter(only_audio=True).first()
-        audio_stream.download(output_path)
+        video_stream = yt.streams.get_highest_resolution()
+        video_stream.download()
         messagebox.showinfo('Download Complete', f'Download complete: {yt.title}')
     except Exception as e:
         messagebox.showerror('Error', f'An error occurred: {str(e)}')
 
-
+# Create the main window
 root = tk.Tk()
-root.title('YouTube to MP3 Downloader')
+root.title('MP4 & MP3 Downloader')
 
-url_label = tk.Label(root, text='Enter YouTube URL:')
+tabControl = ttk.Notebook(master=root)
+tab1 = ttk.Frame(tabControl)
+tab2 = ttk.Frame(tabControl)
+tabControl.add(tab1, text='Youtuber Video Downloader')
+tabControl.add(tab2, text='Spotify MP3 Downloader')
+
+# tab 1 yt
+url_label = tk.Label(tab1, text='Enter YouTube URL:')
 url_label.pack(pady=10)
-url_entry = tk.Entry(root, width=40)
+url_entry = tk.Entry(tab1, width=40)
 url_entry.pack(pady=10)
 
-output_label = tk.Label(root, text='Enter Output Path:')
-output_label.pack(pady=10)
-output_entry = tk.Entry(root, width=40)
-output_entry.pack(pady=10)
+# tab 2 spotify
+url_label2 = tk.Label(tab2, text='Enter Spotify URL:')
+url_label2.pack(pady=10)
+url_entry2 = tk.Entry(tab2, width=40)
+url_entry2.pack(pady=10)
 
-# Download Button
-download_button = tk.Button(root, text='Download MP3', command=download_audio)
+# pack yt
+tabControl.pack(expand=1, fill="both")
+
+
+# Download yt
+download_button = tk.Button(tab1, text='Download Video', command=download_video)
 download_button.pack(pady=20)
+
+# Download Spotify
+download_button2 = tk.Button(tab2, text='Download Audio',command=download_audio)
+download_button2.pack(pady=20)
 
 # Run the Tkinter event loop
 root.mainloop()
