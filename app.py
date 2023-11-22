@@ -2,10 +2,12 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 from pytube import YouTube
-import spotdl
+from pytube.exceptions import AgeRestrictedError
+from exceptions import SpotifyAlbumNotFound, SpotifyTrackNotFound, SpotifyPlaylistNotFound, ConfigVideoMaxLength, ConfigVideoLowViewCount, YoutubeItemNotFound
+from apis.spotify import Spotify
 def download_audio():
     url = url_entry2.get()
-    spotdl.Downloader(url)
+    messagebox.showinfo('Download Complete', f'Download complete {url.title}')
         
 
 
