@@ -2,9 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 from pytube import YouTube
-from pytube.exceptions import AgeRestrictedError
-from exceptions import SpotifyAlbumNotFound, SpotifyTrackNotFound, SpotifyPlaylistNotFound, ConfigVideoMaxLength, ConfigVideoLowViewCount, YoutubeItemNotFound
-from apis.spotify import Spotify
+
 def download_audio():
     url = url_entry2.get()
     messagebox.showinfo('Download Complete', f'Download complete {url.title}')
