@@ -156,7 +156,7 @@ logo2 = Image.open(r"afbeeldingen\Deezer_hRGsLeP.png")
 logo2 = logo2.resize((64, 34))
 logo2 = ImageTk.PhotoImage(logo2)
 
-logo3 = Image.open(r"afbeeldingen\sound_PNG22.png")
+logo3 = Image.open(r"afbeeldingen\file.png")
 logo3 = logo3.resize((54, 54))
 logo3 = ImageTk.PhotoImage(logo3)
 
