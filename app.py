@@ -127,7 +127,7 @@ def stop_music():
 root = tk.Tk()
 frame2 = tk.Frame()
 root.resizable(width=False,height=False)
-root.geometry("400x300")
+root.geometry("617x500")
 root.title('MP4 & MP3 Downloader')
 
 tabControl = ttk.Notebook(master=root)
