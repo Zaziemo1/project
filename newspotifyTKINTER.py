@@ -1,52 +1,41 @@
 import os
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-from pydub import AudioSegment
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import filedialog
+import pygame
 
-def download_song(track_uri):
-    try:
-        track_info = sp.track(track_uri)
-        track_name = track_info['name']
-        artist_name = track_info['artists'][0]['name']
-        
-        # Simulating the download of the song (replace this with your actual download logic)
-        # For demonstration purposes, we're creating a 10-second silent audio segment
-        audio_segment = AudioSegment.from_file("example.wav", format="wav")
-        
-        # Saving the audio segment to an MP3 file
-        download_path = os.path.expanduser('~') + '/Downloads/'
-        mp3_filename = f"{artist_name} - {track_name}.mp3"
-        mp3_path = os.path.join(download_path, mp3_filename)
-        audio_segment.export(mp3_path, format="mp3")
+def browse_file():
+    file_path = filedialog.askopenfilename(filetypes=[("Audio Files", "*.mp3;*.wav")])
+    if file_path:
+        file_var.set(file_path)
 
-        messagebox.showinfo("Download Complete", "Song downloaded and converted to MP3 successfully.")
-    except Exception as e:
-        print(f"Error downloading song: {e}")
-        messagebox.showerror("Error", "Unable to download song.")
-
-# Spotify API credentials
-client_id = "4cc048fb419440f5951860cf0a9f9db0"
-client_secret = "763a491995ce4b1cad73ecccd6bb9ade"
-
-# Spotify API authentication
-client_credentials_manager = SpotifyClientCredentials(client_id=client_id, client_secret=client_secret)
-sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+def play_music():
+    file_path = file_var.get()
+    if file_path and os.path.exists(file_path):
+        try:
+            pygame.mixer.init()
+            pygame.mixer.music.load(file_path)
+            pygame.mixer.music.play()
+        except pygame.error as e:
+            print(f"Error playing music: {e}")
 
 # Create the main window
-window = tk.Tk()
-window.title("Song Downloader")
+root = tk.Tk()
+root.title("Music Player")
 
-# Create and place widgets
-url_label = tk.Label(window, text="Enter Spotify Track URI:")
-url_label.pack(pady=10)
+# StringVar to track the file path
+file_var = tk.StringVar()
 
-url_entry = tk.Entry(window, width=40)
-url_entry.pack(pady=10)
+# Entry to display the selected file path
+file_entry4 = tk.Entry(root, textvariable=file_var, state='disabled', width=40)
+file_entry4.grid(row=0, column=0, padx=10, pady=10, sticky=tk.W)
 
-download_button = tk.Button(window, text="Download", command=lambda: download_song(url_entry.get()))
-download_button.pack(pady=10)
+# Browse button to select a music file
+browse_button4 = tk.Button(root, text="Browse", command=browse_file)
+browse_button4.grid(row=0, column=1, padx=10, pady=10, sticky=tk.W)
 
-# Start the Tkinter event loop
-window.mainloop()
+# Play button to play the selected music file
+play_button4 = tk.Button(root, text="Play", command=play_music)
+play_button4.grid(row=1, column=0, columnspan=2, pady=10)
+
+# Run the Tkinter event loop
+root.mainloop()
