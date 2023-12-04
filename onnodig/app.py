@@ -9,6 +9,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 from pydub import AudioSegment
 import requests
 from io import BytesIO
+from PIL import Image, ImageTk
 
 
 
@@ -120,21 +121,20 @@ def play_music():
 def stop_music():
     pygame.mixer.music.stop()
 
-
-
-
 # Create the main window
 root = tk.Tk()
 frame2 = tk.Frame()
 root.resizable(width=False,height=False)
-root.geometry("400x300")
+root.geometry("627x500")
 root.title('MP4 & MP3 Downloader')
 
 tabControl = ttk.Notebook(master=root)
+hometab = ttk.Frame(tabControl)
 tab1 = ttk.Frame(tabControl)
 tab2 = ttk.Frame(tabControl)
 tab3 = ttk.Frame(tabControl)
 tab4 = ttk.Frame(tabControl)
+tabControl.add(hometab,text='Home')
 tabControl.add(tab1, text='Youtuber Video Downloader')
 tabControl.add(tab2, text='Spotify MP3 preview Downloader')
 tabControl.add(tab3,text='Deezer MP3 preview Downloader')
@@ -155,6 +155,63 @@ url_entry2.pack(pady=10)
 # pack yt
 tabControl.pack(expand=1, fill="both")
 
+# Hometab
+
+def make_rounded_button(widget):
+    widget.config(relief=tk.GROOVE, bd=5, borderwidth=5, highlightthickness=0, bg='#34495e', fg='white')
+    widget.update_idletasks()
+    widget_height = widget.winfo_height()
+    widget_width = widget.winfo_width()
+    widget.config(height=widget_height, width=widget_width, borderwidth=0)
+    widget.config(highlightthickness=0)
+    widget.configure(bg='#3498db')
+
+logo = Image.open(r"afbeeldingen/Youtube_logo.png")
+logo = logo.resize((64, 54))
+logo = ImageTk.PhotoImage(logo)
+
+logo1 = Image.open(r"afbeeldingen\Spotify_icon.svg.png")
+logo1 = logo1.resize((64, 64))
+logo1 = ImageTk.PhotoImage(logo1)
+
+logo2 = Image.open(r"afbeeldingen\Deezer_hRGsLeP.png")
+logo2 = logo2.resize((64, 34))
+logo2 = ImageTk.PhotoImage(logo2)
+
+logo3 = Image.open(r"afbeeldingen\sound_PNG22.png")
+logo3 = logo3.resize((54, 54))
+logo3 = ImageTk.PhotoImage(logo3)
+
+frame1 = tk.Frame(hometab, bg='#3498db')  # Add a frame for the title
+frame1.grid(row=0, column=0, columnspan=3, pady=10)
+
+# Add label for the title in the center
+title_label = tk.Label(hometab, text='Video/Audio Downloader', font=('Helvetica', 16), fg='black')
+title_label.grid(row=0, columnspan=5, pady=20)
+
+button1 = tk.Button(hometab, text="Button 1", image=logo, width=120)
+button1.grid(row=1, column=0, padx=5, pady=5, sticky="nsew")
+make_rounded_button(button1)
+
+button3 = tk.Button(hometab, text="Button 1", image=logo1, width=120)
+button3.grid(row=1, column=2, padx=5, pady=5, sticky="nsew")
+make_rounded_button(button3)
+
+button4 = tk.Button(hometab, text="Button 1", image=logo2, width=120)
+button4.grid(row=2, column=0, padx=5, pady=5, sticky="nsew")
+make_rounded_button(button4)
+
+button6 = tk.Button(hometab, text="Button 1", image=logo3, width=120)
+button6.grid(row=2, column=2, padx=5, pady=5, sticky="nsew")
+make_rounded_button(button6)
+
+# Configure column and row weights to center the buttons
+for i in range(3):  # Number of columns
+    hometab.grid_columnconfigure(i, weight=1)
+
+for i in range(3):  # Number of rows
+    hometab.grid_rowconfigure(i, weight=1)
+  
 
 # Download yt
 download_button = tk.Button(tab1, text='Download Video', command=download_Youtubevideo)
